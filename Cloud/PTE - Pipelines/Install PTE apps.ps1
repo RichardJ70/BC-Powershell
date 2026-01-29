@@ -15,7 +15,7 @@ Import-Module BcContainerHelper -Verbose
 $environment = "SandBox4PSNL" #4PS
 $environment = "Production"
 $environment = "Sandbox" #Standard BC
-$tenant = "4e8a3658-1a43-4a8a-a9d8-02a5c74dbbf5"
+$tenant = "your tenant id"
 $appfiles = "D:\Apps-Git\RISA\4PS\RISA_Application\RISA Support BV_RISA Application_24.4.0.0.app",
             "D:\Apps-Git\RISA\4PS\RISA_Financial\RISA Support BV_RISA Financial_24.4.0.0.app",
             "D:\Apps-Git\RISA\4PS\RISA_IT\RISA Support BV_RISA_IT_24.0.0.0.app",
