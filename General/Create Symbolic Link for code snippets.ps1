@@ -1,0 +1,1 @@
+﻿New-Item -ItemType SymbolicLink -Path "$env:APPDATA\Code\User\snippets\al.json" -Target "D:\OneDrive\<yourname>\Documents\vscode\al.json"

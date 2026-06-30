@@ -1,5 +1,5 @@
 # Get active 4PS environments
-$Environment = "TestRISA"
+$Environment = "ACC"
 
 $environmentList = Invoke-WebRequest `
     -Method Get `

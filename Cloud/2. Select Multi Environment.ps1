@@ -1,6 +1,7 @@
 # Get list of active 4PS environments
 $title = "Environment Selection"
-$namefilter = ""
+$namefilter =""
+$platformversion = "27.0"
 $question = "Do you want to use all active Sandbox or Production environments?"
 $choices = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
 $choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&1 - Sandbox'))
@@ -17,5 +18,9 @@ $environmentList = Invoke-WebRequest `
     -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
     -Headers @{Authorization=("Bearer $accessToken")}
 Write-Host -ForegroundColor Green 'Active 4PS' $environmenttype 'environments'
-ConvertFrom-Json $environmentList.Content | Select-Object -ExpandProperty value | Select-Object -Property name, type, applicationfamily, applicationversion, status, platformversion | where-object {($_.status -eq 'Active') -and ($_.type -eq $environmentType) -and ($_.name -ge $namefilter)} |Format-Table | Out-String | Write-Host
-$EnvironmentsToUpdate = $environmentList.Content | ConvertFrom-Json| Select-Object -ExpandProperty value | where-object {($_.status -eq 'Active') -and ($_.type -eq $environmentType) -and ($_.name -ge $namefilter)}
+if ($namefilter.Length -gt 0) {
+    $EnvironmentsToUpdate = $environmentList.Content | ConvertFrom-Json| Select-Object -ExpandProperty value | where-object {($_.status -eq 'Active') -and ($_.type -eq $environmentType) -and ($_.name -eq $namefilter)}
+} elseif ($platformversion.Length -gt 0) {
+        $EnvironmentsToUpdate = $environmentList.Content | ConvertFrom-Json| Select-Object -ExpandProperty value | where-object {($_.status -eq 'Active') -and ($_.type -eq $environmentType) -and ($_.platformVersion -eq $platformversion)}
+    }
+$EnvironmentsToUpdate | Select-Object -Property name, type, applicationfamily, applicationversion, status, platformversion |Format-Table | Out-String | Write-Host

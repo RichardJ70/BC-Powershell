@@ -32,6 +32,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     } else {
         Write-Host ("Found $NoOfApps updates:") -ForegroundColor Yellow
         $appsToUpdateList
+        pause
 
         $title = "Install app updates"
         $question = "Do you want to install these updates in the environment?"
