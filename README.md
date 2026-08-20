@@ -16,3 +16,7 @@ PTE - Pipelines is work in progress.
 AL-GO works for standard BC implementations but not with a BC solution using a different application family, when the partner has not published a public package for their solution. 
 If anyone knows a way to handle this with Git CI/CD please let me know. 
 For now investigation is done to download all installed apps so merging can take place locally, using the script to download all the global (appsource) apps installed on the environment.
+
+# update #
+Since Admin center API version V2.29 it is possible to publish and install PTE extensions
+However, for now, 08/20/26, authentication with BCContainerHelper crashes. This is under investigation with Microsoft.
