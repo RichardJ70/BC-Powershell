@@ -9,7 +9,7 @@
 Import-Module BcContainerHelper -Verbose
 
 #Shared Parameters
-$adminVersion = "V2.21"
+$apiVersion = "V2.29"
 $applicationFamily = "4PSConstruct"
 #$tenantId = Read-Host "Enter the MS TenantId"
 

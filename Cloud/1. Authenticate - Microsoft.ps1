@@ -10,7 +10,7 @@ $ClientSecret =  Read-Host "Enter Client Secret" -AsSecureString
 $aadAppRedirectUri = "https://4psconstruct.bc.dynamics.com/OAuthLanding.htm"               # partner's AAD app redirect URI
 $aadAppSecret      = $ClientSecret
 $applicationFamily = '4psconstruct'
-$adminVersion      = 'V2.21'
+$apiVersion      = 'V2.29'
 
 # Only needs to be done once: Install the MSAL PowerShell module (see https://github.com/AzureAD/MSAL.PS)
 #Install-Module MSAL.PS

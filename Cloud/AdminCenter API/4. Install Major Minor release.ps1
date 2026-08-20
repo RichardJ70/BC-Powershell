@@ -37,7 +37,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     #Get Upgrades
     $response = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/upgrade" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/upgrade" `
     -Headers @{Authorization=("Bearer $accessToken")}
     if ($response.StatusCode -eq 204) {
         Write-Host -ForegroundColor Red 'No scheduled updates for environment' $Environment
@@ -53,7 +53,7 @@ $EnvironmentsToUpdate | ForEach-Object {
             #Set upgrade window
             $response = Invoke-WebRequest `
                 -Method Put `
-                -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/settings/upgrade" `
+                -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/settings/upgrade" `
                 -Body   (@{
                             preferredStartTimeUtc = $preferredStartTimeUtc
                             preferredEndTimeUtc   = $preferredEndTimeUtc
@@ -69,7 +69,7 @@ $EnvironmentsToUpdate | ForEach-Object {
             }
             $response = Invoke-WebRequest `
                 -Method Put `
-                -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/upgrade" `
+                -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/upgrade" `
                 -Body   (@{
                             runOn = $preferredStartTimeUtc
                             ignoreUpgradeWindow = $IgnoreUpdateWindow
@@ -83,7 +83,7 @@ $EnvironmentsToUpdate | ForEach-Object {
                     Write-Host -ForegroundColor Green 'Upgrade 4PS environment' $Environment 'is running.'
                     $response = Invoke-WebRequest `
                         -Method Get `
-                        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
+                        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments" `
                         -Headers @{Authorization=("Bearer $accessToken")}
                     $IsUpgradeRunning = ConvertFrom-Json $response.Content | Select-Object -ExpandProperty value | where-object {($_.status -eq 'Upgrading') -and ($_.name -eq $Environment)} 
                     $UpgradeRunning = $IsUpgradeRunning.Count
@@ -95,7 +95,7 @@ $EnvironmentsToUpdate | ForEach-Object {
 
 $environmentList = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments" `
     -Headers @{Authorization=("Bearer $accessToken")}
 Write-Host -ForegroundColor Green 'Active 4PS environments'
 ConvertFrom-Json $environmentList.Content | Select-Object -ExpandProperty value | Select-Object -Property name, type, applicationfamily, applicationversion, status, platformversion | where-object {($_.status -eq 'Active')} |Format-Table | Out-String | Write-Host
@@ -104,7 +104,7 @@ $StandardStartTimeUtc = "2024-11-11T19:00:00Z"
 $StandardEndTimeUtc   = "2024-11-12T05:00:00Z"
 $response = Invoke-WebRequest `
                 -Method Put `
-                -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/settings/upgrade" `
+                -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/settings/upgrade" `
                 -Body   (@{
                             preferredStartTimeUtc = $StandardStartTimeUtc
                             preferredEndTimeUtc   = $StandardEndTimeUtc
@@ -120,7 +120,7 @@ $response = Invoke-WebRequest `
 $environmentNameSandbox = "Fill in the environment name"
 $response = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environmentNameSandbox/settings/upgrade" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environmentNameSandbox/settings/upgrade" `
     -Headers @{Authorization=("Bearer $accessToken")}
 Write-host -ForegroundColor Green 'Update window for environment' $environmentNameSandbox
 ConvertFrom-Json $response.Content

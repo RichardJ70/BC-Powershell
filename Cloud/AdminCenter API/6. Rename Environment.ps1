@@ -3,7 +3,7 @@ $environmentNameToRename = "BVGO_Template2"
 $newenvironmentName = "VWBTemplate"
 $response = Invoke-WebRequest `
     -Method Post `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environmentNameToRename/rename" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environmentNameToRename/rename" `
     -Body   (@{
                  NewEnvironmentName = $newenvironmentName
               } | ConvertTo-Json) `

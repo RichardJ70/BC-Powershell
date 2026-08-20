@@ -3,7 +3,7 @@
 $environmentName = "Fill the environment name"
 $response = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environmentName/settings/securitygroupaccess" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environmentName/settings/securitygroupaccess" `
     -Headers @{Authorization=("Bearer $accessToken")} `
     -ContentType "application/json"
 $securitygroup = ConvertFrom-Json $response.Content
@@ -14,7 +14,7 @@ $securitygroup = ConvertFrom-Json $response.Content
 $securitygroup = "Fill the security group"
 $response = Invoke-WebRequest `
     -Method Post `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$EnvironmentName/settings/securitygroupaccess" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$EnvironmentName/settings/securitygroupaccess" `
     -Body   (@{
                  Value = $securitygroup.id
               } | ConvertTo-Json) `

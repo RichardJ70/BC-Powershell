@@ -1,4 +1,4 @@
-﻿# Install app updates in all environments
+# Install app updates in all environments
 $title = "Install app updates all environments"
 $question = "Schedule the update to run in the maintenance window?"
 $choices = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
@@ -20,7 +20,7 @@ $EnvironmentsToUpdate | ForEach-Object {
 
     $response = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/apps/availableUpdates" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/apps/availableUpdates" `
     -Headers @{Authorization=("Bearer $accessToken")}
     $appsToUpdate = ConvertFrom-Json $response.Content | Select-Object -ExpandProperty value
     $appsToUpdateList = $appsToUpdate | Select-Object -Property appId, name, publisher, version | Sort-Object -Property name | Format-Table | Out-String
@@ -58,7 +58,7 @@ $EnvironmentsToUpdate | ForEach-Object {
                 $appTargetVersion = $AppVer
                 $response = Invoke-WebRequest `
                   -Method Post `
-                  -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/apps/$appIdToUpdate/update" `
+                  -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/apps/$appIdToUpdate/update" `
                   -Body   (@{
                                targetVersion = $appTargetVersion
                                installOrUpdateNeededDependencies = $true
@@ -85,7 +85,7 @@ $EnvironmentsToUpdate | ForEach-Object {
             Start-Sleep -Seconds 15
             $response = Invoke-WebRequest `
                 -Method Get `
-                -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/apps/availableUpdates" `
+                -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/apps/availableUpdates" `
                 -Headers @{Authorization=("Bearer $accessToken")}
             $UpdatesRemaining = ConvertFrom-Json $response.Content | Select-Object -ExpandProperty value
             $NoOfUpdatesRemaining = $UpdatesRemaining.count
@@ -97,7 +97,7 @@ $EnvironmentsToUpdate | ForEach-Object {
         Write-Host "Installed apps in $Environment"
         $response = Invoke-WebRequest `
             -Method Get `
-            -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/apps" `
+            -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/apps" `
             -Headers @{Authorization=("Bearer $accessToken")}
         ConvertFrom-Json $response.Content | Select-Object -ExpandProperty Value | Select-Object -Property id, name, publisher, version, state | Format-Table | Out-String | Write-Host
     }

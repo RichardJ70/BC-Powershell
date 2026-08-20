@@ -15,7 +15,7 @@ if ($decision -eq 0) {
 }
 $environmentList = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments" `
     -Headers @{Authorization=("Bearer $accessToken")}
 Write-Host -ForegroundColor Green 'Active 4PS' $environmenttype 'environments'
 if ($namefilter.Length -gt 0) {

@@ -39,7 +39,7 @@ $EnvironmentsToUpdate | ForEach-Object {
  
         Invoke-WebRequest `
         -Method Post `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/apps/$appIdsToUnInstall/uninstall" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/apps/$appIdsToUnInstall/uninstall" `
         -Body   (@{
                     deleteData = $deleteData
                     uninstallDependents = $UninstallDependentApps
@@ -55,7 +55,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     Do {
         $response = Invoke-WebRequest `
         -Method Get `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/operations" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/operations" `
         -Headers @{Authorization=("Bearer $accessToken")}
         $Operations = $response.Content | ConvertFrom-Json
         $Operations = $Operations.value
@@ -72,7 +72,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     Write-Host "Installed apps in $Environment"
     $response = Invoke-WebRequest `
         -Method Get `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/apps" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/apps" `
         -Headers @{Authorization=("Bearer $accessToken")}
     Write-Host (ConvertTo-Json (ConvertFrom-Json $response.Content))
 }

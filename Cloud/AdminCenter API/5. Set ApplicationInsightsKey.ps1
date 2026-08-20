@@ -1,4 +1,4 @@
-﻿# Get Application Insights Key production environment
+# Get Application Insights Key production environment
 # Not supported
 
 # Set Application Insights Key to new sandbox.
@@ -9,7 +9,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     $Environment = $_.name
     Invoke-WebRequest `
         -Method Post `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$Environment/settings/appinsightskey" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$Environment/settings/appinsightskey" `
         -Body   (@{
                     key = $appInsightsKey
                 } | ConvertTo-Json) `

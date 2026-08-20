@@ -16,7 +16,7 @@ if ($decision -eq 0) {
 
 $response = Invoke-WebRequest `
     -Method Post `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$sourceEnvironment/copy" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$sourceEnvironment/copy" `
     -Body   (@{
                  EnvironmentName = $targetEnvironment
                  Type            = $targetType
@@ -29,7 +29,7 @@ Do {
     Start-Sleep 15
     $environmentList = Invoke-WebRequest `
         -Method Get `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments" `
         -Headers @{Authorization=("Bearer $accessToken")}
     Write-Host -ForegroundColor Green 'Prepraring 4PS environment' $Environment
     $CopyEnvironment = ConvertFrom-Json $environmentList.Content | Select-Object -ExpandProperty value | where-object {($_.status -eq 'Preparing') -and ($_.name -eq $TargetEnvironment)}
@@ -39,7 +39,7 @@ Until( $CopyBusy -eq 0 )
 
 $response = Invoke-WebRequest `
     -Method Get `
-    -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments" `
+    -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments" `
     -Headers @{Authorization=("Bearer $accessToken")}
 Write-Host -ForegroundColor Green 'Active 4PS environment' $Environment
 ConvertFrom-Json $response.Content | Select-Object -ExpandProperty value | Select-Object -Property name, type, applicationfamily, applicationversion, status, platformversion | where-object {($_.status -eq 'Active') -and ($_.name -eq $TargetEnvironment)} |Format-Table | Out-String | Write-Host

@@ -1,4 +1,4 @@
-﻿<# Migration Apps
+<# Migration Apps
 $AppIdsToInstall =
 "58623bfa-0559-4bc2-ae1c-0979c29fd9e0", #"Intelligent Cloud Base"
 "334ef79e-547e-4631-8ba1-7a7f18e14de6", #"Business Central Intelligent Cloud"
@@ -57,7 +57,7 @@ $EnvironmentsToUpdate | ForEach-Object {
 
         Invoke-WebRequest `
             -Method Post `
-            -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/apps/$App/install" `
+            -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/apps/$App/install" `
             -Body   (@{
                         "AcceptIsvEula" = $true #set to $true once you've read the the app provider's terms of use and privacy policy
                         "languageId" = "1043"
@@ -75,7 +75,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     Do {
         $response = Invoke-WebRequest `
         -Method Get `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/operations" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/operations" `
         -Headers @{Authorization=("Bearer $accessToken")}
         $Operations = $response.Content | ConvertFrom-Json
         $Operations = $Operations.value
@@ -92,7 +92,7 @@ $EnvironmentsToUpdate | ForEach-Object {
     Write-Host "Installed apps in $Environment"
     $response = Invoke-WebRequest `
         -Method Get `
-        -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/apps" `
+        -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/apps" `
         -Headers @{Authorization=("Bearer $accessToken")}
     ConvertFrom-Json $response.Content | Select-Object -ExpandProperty Value | Select-Object -Property id, name, publisher, version, state | Format-Table | Out-String | Write-Host
 }

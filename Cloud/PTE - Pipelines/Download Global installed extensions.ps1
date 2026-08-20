@@ -9,7 +9,7 @@ $ClientSecretAdminApi = Read-Host "Enter Client Secret admin center API" -AsSecu
 # Fixed parameters
 $aadAppRedirectUri = "https://4psconstruct.bc.dynamics.com/OAuthLanding.htm"               # partner's AAD app redirect URI
 $applicationFamily = '4psconstruct'
-$adminVersion      = 'V2.21'
+$apiVersion      = 'V2.29'
 
 # Only needs to be done once: Install the MSAL PowerShell module (see https://github.com/AzureAD/MSAL.PS)
 #Install-Module MSAL.PS
@@ -49,7 +49,7 @@ Write-Host -ForegroundColor Cyan 'Authentication complete - we have an access to
 # Get Global apps using Admin Center API token
 $response = Invoke-WebRequest `
             -Method Get `
-            -Uri    "https://api.businesscentral.dynamics.com/admin/$adminVersion/applications/$applicationFamily/environments/$environment/apps" `
+            -Uri    "https://api.businesscentral.dynamics.com/admin/$apiVersion/applications/$applicationFamily/environments/$environment/apps" `
             -Headers @{Authorization=("Bearer $accessTokenAdmin")}
 $appsEnvironment = ConvertFrom-Json $response.Content | Select-Object -ExpandProperty Value
 
